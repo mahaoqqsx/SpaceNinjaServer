@@ -27,8 +27,12 @@ import { logger } from "@/src/utils/logger";
 import { WeaponTypeInternal, getWeaponType, getExalted } from "@/src/services/itemDataService";
 import { ISyndicateSacrifice, ISyndicateSacrificeResponse } from "../types/syndicateTypes";
 import { IEquipmentClient } from "../types/inventoryTypes/commonInventoryTypes";
+<<<<<<< Updated upstream
 import { ExportCustoms, ExportFlavour, ExportRecipes, ExportResources } from "warframe-public-export-plus";
 import { updateQuestKeys } from "./questService";
+=======
+import { ExportArcanes, ExportCustoms, ExportFlavour, ExportFusionBundles, ExportRecipes, ExportResources, ExportSentinels, ExportUpgrades, ExportWarframes, ExportWeapons } from "warframe-public-export-plus";
+>>>>>>> Stashed changes
 
 export const createInventory = async (
     accountOwnerId: Types.ObjectId,
@@ -120,7 +124,26 @@ export const addItem = async (
             }
         };
     }
-
+    if (typeName in ExportUpgrades) {
+        logger.debug("ExportUpgrades:" + typeName);
+        return {
+            InventoryChanges: {
+                Upgrades: [await addUpgrade(typeName, accountId)]
+            }
+        };
+    }
+    if (typeName in ExportFusionBundles) {
+        logger.debug("ExportFusionBundles:" + typeName);
+        const inventory = await getInventory(accountId);
+        inventory.FusionPoints += ExportFusionBundles[typeName].fusionPoints;
+        await inventory.save();
+        return {
+            InventoryChanges: {
+                FusionPoints: inventory.FusionPoints,
+            }
+        };
+    }
+	
     // Path-based duck typing
     switch (typeName.substring(1).split("/")[1]) {
         case "Powersuits":
@@ -705,7 +728,12 @@ export const addBooster = async (ItemType: string, time: number, accountId: stri
 
     await inventory.save();
 };
-
+export const addUpgrade = async (ItemType: string, accountId: string) => {
+    const inventory = await getInventory(accountId);
+    const upgradeIndex = inventory.Upgrades.push({ ItemType: ItemType, UpgradeFingerprint: "{}" });
+    const changedInventory = await inventory.save();
+    return changedInventory.Upgrades[upgradeIndex - 1].toJSON();
+};
 export const upgradeMod = async (artifactsData: IArtifactsRequest, accountId: string): Promise<string | undefined> => {
     const { Upgrade, LevelDiff, Cost, FusionPointCost } = artifactsData;
     try {

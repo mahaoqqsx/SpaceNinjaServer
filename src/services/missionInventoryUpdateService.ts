@@ -147,7 +147,7 @@ const getRandomRewardByChance = (data: IReward[]): IReward | undefined => {
     return;
 };
 
-const creditBundles: Record<string, number> = {
+export const creditBundles: Record<string, number> = {
     "/Lotus/StoreItems/Types/PickUps/Credits/1500Credits": 1500,
     "/Lotus/StoreItems/Types/PickUps/Credits/2000Credits": 2000,
     "/Lotus/StoreItems/Types/PickUps/Credits/2500Credits": 2500,
@@ -160,7 +160,8 @@ const creditBundles: Record<string, number> = {
     "/Lotus/StoreItems/Types/StoreItems/CreditBundles/Zariman/TableACreditsUncommon": 30000,
     "/Lotus/StoreItems/Types/PickUps/Credits/CorpusArenaCreditRewards/CorpusArenaRewardOneHard": 105000,
     "/Lotus/StoreItems/Types/PickUps/Credits/CorpusArenaCreditRewards/CorpusArenaRewardTwoHard": 175000,
-    "/Lotus/StoreItems/Types/PickUps/Credits/CorpusArenaCreditRewards/CorpusArenaRewardThreeHard": 25000
+    "/Lotus/StoreItems/Types/PickUps/Credits/CorpusArenaCreditRewards/CorpusArenaRewardThreeHard": 25000,
+	"/Lotus/StoreItems/Types/StoreItems/CreditBundles/CreditBundleA": 50000,
 };
 
 const fusionBundles: Record<string, number> = {

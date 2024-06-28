@@ -64,6 +64,7 @@ import { updateQuestController } from "@/src/controllers/api/updateQuestControll
 import { updateSessionGetController, updateSessionPostController } from "@/src/controllers/api/updateSessionController";
 import { updateThemeController } from "@/src/controllers/api/updateThemeController";
 import { upgradesController } from "@/src/controllers/api/upgradesController";
+import { gildWeaponController } from "../controllers/api/gildWeaponController";
 
 const apiRouter = express.Router();
 
@@ -109,8 +110,12 @@ apiRouter.post("/findSessions.php", findSessionsController);
 apiRouter.post("/focus.php", focusController);
 apiRouter.post("/genericUpdate.php", genericUpdateController);
 apiRouter.post("/getAlliance.php", getAllianceController);
+<<<<<<< Updated upstream
 apiRouter.post("/giveKeyChainTriggeredItems.php", giveKeyChainTriggeredItemsController);
 apiRouter.post("/giveKeyChainTriggeredMessage.php", giveKeyChainTriggeredMessageController);
+=======
+apiRouter.post("/gildWeapon.php", gildWeaponController);
+>>>>>>> Stashed changes
 apiRouter.post("/guildTech.php", guildTechController);
 apiRouter.post("/hostSession.php", hostSessionController);
 apiRouter.post("/infestedFoundry.php", infestedFoundryController);

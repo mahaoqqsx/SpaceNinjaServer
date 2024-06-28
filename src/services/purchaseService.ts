@@ -1,9 +1,10 @@
 import { parseSlotPurchaseName } from "@/src/helpers/purchaseHelpers";
 import { getSubstringFromKeyword } from "@/src/helpers/stringHelpers";
-import { addItem, addBooster, updateCurrency, updateSlots } from "@/src/services/inventoryService";
 import { IPurchaseRequest, SlotPurchase, IInventoryChanges, IBinChanges } from "@/src/types/purchaseTypes";
 import { logger } from "@/src/utils/logger";
 import { ExportBundles, ExportGear, TRarity } from "warframe-public-export-plus";
+import { creditBundles } from "./missionInventoryUpdateService";
+import { addItem, addBooster, updateCurrency, updateSlots, getInventory } from "@/src/services/inventoryService";
 
 export const getStoreItemCategory = (storeItem: string) => {
     const storeItemString = getSubstringFromKeyword(storeItem, "StoreItems/");
@@ -107,6 +108,16 @@ const handleStoreItemAcquisition = async (
             if (internalName in ExportGear) {
                 quantity *= ExportGear[internalName].purchaseQuantity || 1;
             }
+        }
+		if (storeItemName in creditBundles) {
+            const inventory = await getInventory(accountId);
+            inventory.RegularCredits += creditBundles[storeItemName];
+            await inventory.save();
+            return {
+                InventoryChanges: {
+                    RegularCredits: inventory.RegularCredits,
+                }
+            };
         }
         switch (storeCategory) {
             default:
